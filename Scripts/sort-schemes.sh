@@ -7,12 +7,21 @@
 aliasNewLine='@'
 aliasSpase='<space>'
 
+# Schemes and platforms for sort modules schemes.
 supportPlatforms=("iOS" "macOS" "tvOS")
 schemeModules=("Documentation" "Fat${aliasSpase}Framework" "Framework")
 schemeMainProject=("All${aliasSpase}Documentation" "All${aliasSpase}Fat${aliasSpase}Frameworks" "All${aliasSpase}Frameworks+Documentation" "All${aliasSpase}XCFrameworks" "All${aliasSpase}iOS${aliasSpase}Frameworks" "All${aliasSpase}macOS${aliasSpase}Frameworks" "All${aliasSpase}tvOS${aliasSpase}Frameworks")
+
+# Apps schemes.
 schemeSasquatchiOS=("SasquatchObjC" "SasquatchObjC" "SasquatchPuppet" "SasquatchSwift${aliasSpase}Extension" "SasquatchSwift-Preview${aliasSpase}Extension" "SasquatchSwift-Preview${aliasSpase}XCFrameworks" "SasquatchSwift-Preview" "SasquatchSwift" "SasquatchWatchObjC" "SasquatchWatchSwift")
 schemeSasquatchTV=("SasquatchTVObjC-Preview" "SasquatchTVObjC" "SasquatchTVSwift-Preview" "SasquatchTVSwift")
 schemeSasquatchMac=("SasquatchMacObjC-Preview" "SasquatchMacObjC" "SasquatchMacSwift-Extension" "SasquatchMacSwift-Preview" "SasquatchMacSwift")
+
+# Other libs schemes.
+schemeCrashLib=("CrashLibIOS" "CrashLibMac" "CrashLibTV" "CrashLibWatch")
+schemeCrashReporter=("CrashReporter${aliasSpase}XCFramework" "CrashReporter${aliasSpase}iOS${aliasSpase}Framework" "CrashReporter${aliasSpase}iOS${aliasSpase}Universal" "CrashReporter${aliasSpase}iOS" "CrashReporter${aliasSpase}macOS${aliasSpase}Framework" "CrashReporter${aliasSpase}macOS" "CrashReporter${aliasSpase}tvOS${aliasSpase}Framework" "CrashReporter${aliasSpase}tvOS${aliasSpase}Universal" "CrashReporter${aliasSpase}tvOS" "DemoCrash${aliasSpase}iOS" "DemoCrash${aliasSpase}macOS" "DemoCrash${aliasSpase}tvOS" "Disk${aliasSpase}Image" "Documentation" "Fuzz${aliasSpase}Testing" "plcrashutil")
+schemeOCMock=("OCMock${aliasSpase}iOS" "OCMock${aliasSpase}tvOS" "OCMock${aliasSpase}watchOS" "OCMock" "OCMockLib")
+schemeOCHamcrest=("OCHamcrest-iOS" "OCHamcrest-tvOS" "OCHamcrest-watchOS" "OCHamcrest" "libochamcrest")
 
 # Scheme counter.
 currentSchemeNumber=0;
@@ -114,3 +123,9 @@ sort_modules_schemes_function "AppCenterPush"
 sort_apps_schemes_function "${schemeSasquatchiOS[@]}" "Sasquatch/Sasquatch.xcodeproj"
 sort_apps_schemes_function "${schemeSasquatchMac[@]}" "SasquatchMac/SasquatchMac.xcodeproj" 
 sort_apps_schemes_function "${schemeSasquatchTV[@]}" "SasquatchTV/SasquatchTV.xcodeproj"
+
+# Sort other schemes.
+sort_apps_schemes_function "${schemeCrashLib[@]}" "CrashLib/CrashLib.xcodeproj"
+sort_apps_schemes_function "${schemeCrashReporter[@]}" "Vendor/PLCrashReporter/CrashReporter.xcodeproj"
+sort_apps_schemes_function "${schemeOCMock[@]}" "Vendor/OCMock/Source/OCMock.xcodeproj"
+sort_apps_schemes_function "${schemeOCHamcrest[@]}" "Vendor/OCHamcrest/Source/OCHamcrest.xcodeproj"
