@@ -11,15 +11,30 @@ aliasSpase='<space>'
 currentSchemeNumber=0;
 
 replace_number() {
+
+    # Get params and remove aliases from schema name.
     schemeName="${1//${aliasSpase}/ }_^#shared#^_"
     fileName=$2
+    isHidden=$3
+
+    # Prepare the backup file.
     backupFile="${fileName}.bak"
 
-    # Regex for search the number of scheme.
-    numberPattern="\(<key>${schemeName}<\/key>[${aliasNewLine}][[:space:]]*<dict>[${aliasNewLine}][[:space:]]*<key>orderHint<\/key>[${aliasNewLine}][[:space:]]*<integer>\)[0-9]*\(<\/integer>\)"
-    
-    # Regex for replacing the number of scheme.
-    newNumberPattern="\1$currentSchemeNumber\2"
+    if [ $isHidden = "true" ] ; then
+
+        # Regex for search place for insert hidden value.
+        numberPattern="\(<key>${schemeName}<\/key>[${aliasNewLine}][[:space:]]*<dict>[${aliasNewLine}][[:space:]]*\)\(<key>orderHint\)"
+
+        # Regex for insert hidden value.
+        newNumberPattern="\1<key>isShown<\/key><false\/>${aliasNewLine}\2"
+    else 
+
+        # Regex for search the number of scheme.
+        numberPattern="\(<key>${schemeName}<\/key>[${aliasNewLine}][[:space:]]*<dict>[${aliasNewLine}][[:space:]]*<key>orderHint<\/key>[${aliasNewLine}][[:space:]]*<integer>\)[0-9]*\(<\/integer>\)"
+        
+        # Regex for replacing the number of scheme.
+        newNumberPattern="\1$currentSchemeNumber\2"
+    fi
 
     # Replace new line to alias.
     tr '\n' "${aliasNewLine}" < ${fileName} > ${backupFile}
@@ -34,13 +49,16 @@ replace_number() {
     rm ${backupFile}
 
     # Increase number of scheme.
-    currentSchemeNumber=$((currentSchemeNumber+1))
+    if [ $isHidden = "false" ] ; then
+        currentSchemeNumber=$((currentSchemeNumber+1))
+    fi
 }
 
 sort_schemes_function () {
 
-    # Module name.
+    # Get params.
     projectName=$1
+    isHidden=$2
 
     # Build path to file of scheme.
     fileName="${projectName}/xcuserdata/$USER.xcuserdatad/xcschemes/xcschememanagement.plist"
@@ -53,13 +71,15 @@ sort_schemes_function () {
 
         # Sort schemes in project.
         for file in ${directoryName}; do
+
+            # Get file name without full path.
             scheme="${file##*/}"
 
-            # Build scheme name.
+            # Prepare scheme name for passing to replacing function.
             schemeName="${scheme// /${aliasSpase}}"
 
             # Call replacing function.
-            replace_number ${schemeName} ${fileName}
+            replace_number ${schemeName} ${fileName} ${isHidden}
         done
     else
         echo "The file $fileName not exist."
@@ -67,22 +87,22 @@ sort_schemes_function () {
 }
 
 # Sort scheme in the AppCenter.xcworkspace project.
-sort_schemes_function "AppCenter.xcworkspace"
+sort_schemes_function "AppCenter.xcworkspace" "false"
 
 # Sort schemes in modules projects.
-sort_schemes_function "AppCenter/AppCenter.xcodeproj" 
-sort_schemes_function "AppCenterAnalytics/AppCenterAnalytics.xcodeproj" 
-sort_schemes_function "AppCenterCrashes/AppCenterCrashes.xcodeproj" 
-sort_schemes_function "AppCenterDistribute/AppCenterDistribute.xcodeproj" 
-sort_schemes_function "AppCenterPush/AppCenterPush.xcodeproj" 
+sort_schemes_function "AppCenter/AppCenter.xcodeproj" "false"
+sort_schemes_function "AppCenterAnalytics/AppCenterAnalytics.xcodeproj" "false"
+sort_schemes_function "AppCenterCrashes/AppCenterCrashes.xcodeproj" "false"
+sort_schemes_function "AppCenterDistribute/AppCenterDistribute.xcodeproj" "false"
+sort_schemes_function "AppCenterPush/AppCenterPush.xcodeproj" "false"
 
 # Sort schemes in apps projects.
-sort_schemes_function "Sasquatch/Sasquatch.xcodeproj"
-sort_schemes_function "SasquatchMac/SasquatchMac.xcodeproj" 
-sort_schemes_function "SasquatchTV/SasquatchTV.xcodeproj"
+sort_schemes_function "Sasquatch/Sasquatch.xcodeproj" "false"
+sort_schemes_function "SasquatchMac/SasquatchMac.xcodeproj" "false"
+sort_schemes_function "SasquatchTV/SasquatchTV.xcodeproj" "false"
 
 # Sort other schemes.
-sort_schemes_function "CrashLib/CrashLib.xcodeproj"
-sort_schemes_function "Vendor/PLCrashReporter/CrashReporter.xcodeproj"
-sort_schemes_function "Vendor/OCMock/Source/OCMock.xcodeproj"
-sort_schemes_function "Vendor/OCHamcrest/Source/OCHamcrest.xcodeproj"
+sort_schemes_function "CrashLib/CrashLib.xcodeproj" "true"
+sort_schemes_function "Vendor/PLCrashReporter/CrashReporter.xcodeproj" "true"
+sort_schemes_function "Vendor/OCMock/Source/OCMock.xcodeproj" "true"
+sort_schemes_function "Vendor/OCHamcrest/Source/OCHamcrest.xcodeproj" "true"
