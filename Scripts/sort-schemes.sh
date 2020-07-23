@@ -3,6 +3,9 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
+# Sort the order of projects' schemes.
+# Usage: sort-schemes.sh
+
 # Alias for replacing symbols.
 aliasNewLine='@'
 aliasSpase='<space>'
