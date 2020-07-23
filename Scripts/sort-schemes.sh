@@ -42,7 +42,7 @@ sort_schemes_function () {
     # Module name.
     projectName=$1
 
-    # Build path to scheme.
+    # Build path to file of scheme.
     fileName="${projectName}/xcuserdata/$USER.xcuserdatad/xcschemes/xcschememanagement.plist"
 
     # Build path to schemes directory.
@@ -51,14 +51,14 @@ sort_schemes_function () {
     # Check that the scheme file exists.
     if [ -f $fileName ]; then
 
-        # Sort schemes in App Center modules.
+        # Sort schemes in project.
         for file in ${directoryName}; do
             scheme="${file##*/}"
 
             # Build scheme name.
             schemeName="${scheme// /${aliasSpase}}"
-                
-            # Build regex for replacing to number of scheme.
+
+            # Call replacing function.
             replace_number ${schemeName} ${fileName}
         done
     else
