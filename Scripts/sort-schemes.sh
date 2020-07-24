@@ -96,7 +96,7 @@ sort_schemes_function "AppCenter/AppCenter.xcodeproj" false
 sort_schemes_function "AppCenterAnalytics/AppCenterAnalytics.xcodeproj" false
 sort_schemes_function "AppCenterCrashes/AppCenterCrashes.xcodeproj" false
 sort_schemes_function "AppCenterDistribute/AppCenterDistribute.xcodeproj" false
-sort_schemes_function "AppCenterPush/AppCenterPush.xcodeproj" "false"
+sort_schemes_function "AppCenterPush/AppCenterPush.xcodeproj" false
 
 # Sort schemes in apps projects.
 sort_schemes_function "Sasquatch/Sasquatch.xcodeproj" false
