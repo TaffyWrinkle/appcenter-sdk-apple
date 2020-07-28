@@ -84,7 +84,7 @@ sort_schemes_function () {
             replace_number_or_hide_scheme ${schemeName} ${fileName} ${isHidden}
         done
     else
-        echo "The file $fileName not exist."
+        echo "The file $fileName does not exist."
     fi
 }
 
