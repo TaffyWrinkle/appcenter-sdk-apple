@@ -66,13 +66,13 @@ sort_schemes_function () {
     fileName="${projectName}/xcuserdata/$USER.xcuserdatad/xcschemes/xcschememanagement.plist"
 
     # Build path to schemes directory.
-    directoryName="${projectName}/xcshareddata/xcschemes/*"
+    directoryName="${projectName}/xcshareddata/xcschemes"
 
     # Check that the scheme file exists.
-    if [ -f $fileName ]; then
+    if [ -f "$fileName" ] && [ -d "$directoryName" ] ; then
 
         # Sort schemes in project.
-        for file in ${directoryName}; do
+        for file in ${directoryName}/*; do
 
             # Get file name without full path.
             scheme="${file##*/}"
@@ -84,7 +84,7 @@ sort_schemes_function () {
             replace_number_or_hide_scheme ${schemeName} ${fileName} ${isHidden}
         done
     else
-        echo "The file $fileName does not exist."
+        echo "The schemes configuration does not exist for the project ${projectName}."
     fi
 }
 
